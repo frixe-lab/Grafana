@@ -19,7 +19,7 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
 
 3. Clone repositori:
    ```
-   git clone https://github.com/frixe-lab/Grafana
+   git clone https://github.com/sectenzorg/docker-portainer
    ```
 
 4. Masuk ke direktori `docker-portainer`:
@@ -48,8 +48,9 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
 
 8. Download skrip dengan `curl`:
    ```
-   curl -LO https://raw.githubusercontent.com/sectenzorg/diio-grafana-labs/refs/heads/master/automate-prom-node.sh
+   curl -LO https://raw.githubusercontent.com/frixe-lab/Grafana/blob/main/Automate-prom-node.sh
    ```
+
 
 9. Berikan izin eksekusi pada skrip:
    ```
