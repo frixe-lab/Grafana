@@ -19,7 +19,7 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
 
 3. Clone repositori:
    ```
-   git clone https://github.com/sectenzorg/docker-portainer
+   git clone https://github.com/frixe-lab/Grafana
    ```
 
 4. Masuk ke direktori `docker-portainer`:
