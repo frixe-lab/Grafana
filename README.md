@@ -131,13 +131,3 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
     Sekarang Anda dapat melihat dan memantau metrik Node Exporter melalui dashboard Grafana yang telah Anda buat.
 
 ---
-
-Selamat! Anda telah berhasil menyelesaikan lab ini! 🎉 Anda kini dapat memantau metrik sistem menggunakan Grafana dan Prometheus. Jika ada pertanyaan lebih lanjut, jangan ragu untuk bertanya!
-
----
-
-**Fikri Maulana Mukhlis**
-## References
-This project was created with inspiration and references from the following sources:
-- (https://github.com/sectenzorg/diio-grafana-labs)
-
