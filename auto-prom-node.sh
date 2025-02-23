@@ -1,46 +1,22 @@
 #!/bin/bash
 
-set -e
-
-# Log file for debugging
-LOG_FILE="/var/log/prometheus_install.log"
-exec > >(tee -a $LOG_FILE) 2>&1
-echo "Installation started at $(date)"
-
-# Check if running as root
-if [[ $EUID -ne 0 ]]; then
-  echo "This script must be run as root"
-  exit 1
-fi
-
 # Detecting host IP address
 host_ip=$(hostname -I | awk '{print $1}')
-if [ -z "$host_ip" ]; then
-  echo "Failed to detect host IP. Please check your network configuration."
-  exit 1
-fi
-
-# Variables for versions
-PROM_VERSION="2.54.1"
-NODE_EXPORTER_VERSION="1.8.2"
 
 # Create users
-useradd --no-create-home --shell /bin/false prometheus || true
-useradd --no-create-home --shell /bin/false node_exporter || true
+useradd --no-create-home --shell /bin/false prometheus
 
-# Create directories and set permissions
+# Create necessary directories and set permissions
 mkdir -p /etc/prometheus /var/lib/prometheus
 chown prometheus:prometheus /etc/prometheus /var/lib/prometheus
 
 # Download and extract Prometheus
-if [ ! -f "prometheus-${PROM_VERSION}.linux-amd64.tar.gz" ]; then
-  wget "https://github.com/prometheus/prometheus/releases/download/v${PROM_VERSION}/prometheus-${PROM_VERSION}.linux-amd64.tar.gz"
-fi
+PROM_VERSION="2.54.1"
+wget "https://github.com/prometheus/prometheus/releases/download/v${PROM_VERSION}/prometheus-${PROM_VERSION}.linux-amd64.tar.gz"
 tar -xzvf "prometheus-${PROM_VERSION}.linux-amd64.tar.gz"
 cp prometheus-${PROM_VERSION}.linux-amd64/{prometheus,promtool} /usr/local/bin/
 cp -R prometheus-${PROM_VERSION}.linux-amd64/{consoles,console_libraries} /etc/prometheus/
 chown -R prometheus:prometheus /usr/local/bin/prometheus /usr/local/bin/promtool /etc/prometheus/consoles /etc/prometheus/console_libraries
-rm -rf prometheus-${PROM_VERSION}.linux-amd64 prometheus-${PROM_VERSION}.linux-amd64.tar.gz
 
 # Configure Prometheus with detected IP address
 cat <<EOF > /etc/prometheus/prometheus.yml
@@ -80,22 +56,22 @@ systemctl daemon-reload
 systemctl enable prometheus
 systemctl start prometheus
 
-# Check Prometheus service status
-if systemctl is-active --quiet prometheus; then
-  echo "Prometheus is running."
-else
-  echo "Failed to start Prometheus. Check the logs for details."
-  exit 1
-fi
+# Display installation completion message
+echo "Prometheus has been installed."
 
-# Download and extract Node Exporter
-if [ ! -f "node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz" ]; then
-  wget "https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz"
-fi
+
+
+#!/bin/bash
+
+# Create Node Exporter user
+useradd --no-create-home --shell /bin/false node_exporter
+
+# Download and set up Node Exporter
+NODE_EXPORTER_VERSION="1.8.2"
+wget "https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VERSION}/node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz"
 tar -xzvf "node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz"
 cp node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64/node_exporter /usr/local/bin/
 chown node_exporter:node_exporter /usr/local/bin/node_exporter
-rm -rf node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64 node_exporter-${NODE_EXPORTER_VERSION}.linux-amd64.tar.gz
 
 # Create and configure Node Exporter service
 cat <<EOF > /etc/systemd/system/node_exporter.service
@@ -119,13 +95,5 @@ systemctl daemon-reload
 systemctl enable node_exporter
 systemctl start node_exporter
 
-# Check Node Exporter service status
-if systemctl is-active --quiet node_exporter; then
-  echo "Node Exporter is running."
-else
-  echo "Failed to start Node Exporter. Check the logs for details."
-  exit 1
-fi
-
-# Display installation completion message
-echo "Installation of Prometheus and Node Exporter completed successfully."
+# Display completion message
+echo "Node Exporter has been installed."
