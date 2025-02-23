@@ -48,18 +48,18 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
 
 8. Download skrip dengan `curl`:
    ```
-   curl -LO https://raw.githubusercontent.com/frixe-lab/Grafana/blob/main/Automate-prom-node.sh
+   curl -LO https://raw.githubusercontent.com/frixe-lab/Grafana/refs/heads/main/auto-prom-node.sh
    ```
 
 
 9. Berikan izin eksekusi pada skrip:
    ```
-   sudo chmod +x automate-prom-node.sh
+   sudo chmod +x autom-prom-node.sh
    ```
 
 10. Jalankan skrip:
     ```
-    sudo ./automate-prom-node.sh
+    sudo ./auto-prom-node.sh
     ```
 
 ## Langkah 6: Akses Prometheus dan Node Exporter
@@ -119,10 +119,10 @@ Panduan ini menjelaskan langkah-langkah untuk menginstal Docker, menjalankan Gra
 
     Masukkan salah satu ID ke dalam kolom import di Grafana, atau Anda bisa meng-upload file JSON jika memiliki.
 
-21. Pilih Data Source:
+22. Pilih Data Source:
     Pastikan untuk memilih data source Prometheus yang sudah Anda tambahkan sebelumnya.
 
-22. Simpan Dashboard:
+23. Simpan Dashboard:
     Klik `Import` untuk menyimpan dashboard.
 
 ## Langkah 10: Pantau Data
